@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>العراب شاورما | المنيو الإلكتروني</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:            #0b0905;
+      --bg-card:       #111009;
+      --bg-elevated:   #181510;
+      --gold:          #c8850a;
+      --gold-mid:      #e09818;
+      --gold-bright:   #f5b42a;
+      --gold-pale:     #ffd97a;
+      --text:          #ede3cc;
+      --text-muted:    #7a6a4a;
+      --border:        #251e12;
+      --border-mid:    #362d1a;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Cairo', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Grain overlay */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      background-size: 250px 250px;
+      pointer-events: none;
+      z-index: 900;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed;
+      inset: 0 0 auto 0;
+      z-index: 200;
+      padding: 18px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: linear-gradient(to bottom, rgba(11,9,5,0.9) 0%, transparent 100%);
+      backdrop-filter: blur(2px);
+    }
+
+    .nav-logo {
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--gold-bright);
+      letter-spacing: 0.02em;
+    }
+
+    .nav-phone {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-decoration: none;
+      letter-spacing: 0.06em;
+      transition: color 0.2s;
+    }
+    .nav-phone:hover { color: var(--gold-bright); }
+
+    /* ─── HERO ─── */
+    .hero {
+      position: relative;
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 130px 24px 80px;
+      overflow: hidden;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: 30%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 700px;
+      height: 700px;
+      background: radial-gradient(circle, rgba(200,133,10,0.09) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    .hero-ring {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: min(680px, 90vw);
+      height: min(680px, 90vw);
+      border-radius: 50%;
+      border: 1px solid rgba(200,133,10,0.07);
+      pointer-events: none;
+    }
+    .hero-ring::before {
+      content: '';
+      position: absolute;
+      inset: 25px;
+      border-radius: 50%;
+      border: 1px solid rgba(200,133,10,0.045);
+    }
+    .hero-ring::after {
+      content: '';
+      position: absolute;
+      inset: -25px;
+      border-radius: 50%;
+      border: 1px solid rgba(200,133,10,0.03);
+    }
+
+    .hero-eyebrow {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.2s cubic-bezier(.22,1,.36,1) forwards;
+    }
+
+    .hero-brand {
+      font-size: clamp(58px, 13vw, 116px);
+      font-weight: 900;
+      line-height: 0.95;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.38s cubic-bezier(.22,1,.36,1) forwards;
+    }
+    .hero-brand-line1 {
+      display: block;
+      color: var(--text);
+    }
+    .hero-brand-line2 {
+      display: block;
+      color: var(--gold-bright);
+      position: relative;
+    }
+
+    /* Underline accent on brand */
+    .hero-brand-line2::after {
+      content: '';
+      display: block;
+      height: 3px;
+      width: 70%;
+      margin: 8px auto 0;
+      background: linear-gradient(to left, transparent, var(--gold), transparent);
+      border-radius: 2px;
+      opacity: 0.6;
+    }
+
+    .hero-desc {
+      font-size: clamp(15px, 2.5vw, 20px);
+      font-weight: 400;
+      color: var(--text-muted);
+      margin-top: 24px;
+      margin-bottom: 52px;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.56s cubic-bezier(.22,1,.36,1) forwards;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      justify-content: center;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.72s cubic-bezier(.22,1,.36,1) forwards;
+    }
+
+    .btn {
+      font-family: 'Cairo', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      padding: 13px 36px;
+      border-radius: 5px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: transform 0.2s, background 0.2s, border-color 0.2s, color 0.2s;
+    }
+    .btn:active { transform: scale(0.97); }
+
+    .btn-gold {
+      background: var(--gold);
+      color: #0b0905;
+      border: 2px solid var(--gold);
+    }
+    .btn-gold:hover {
+      background: var(--gold-mid);
+      border-color: var(--gold-mid);
+      transform: translateY(-2px);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--text);
+      border: 2px solid var(--border-mid);
+    }
+    .btn-outline:hover {
+      border-color: var(--gold);
+      color: var(--gold-bright);
+      transform: translateY(-2px);
+    }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 36px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      opacity: 0;
+      animation: fadeIn 1s 1.4s ease forwards;
+    }
+    .hero-scroll-line {
+      width: 1px;
+      height: 48px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+      animation: pulse 2.2s ease-in-out infinite;
+    }
+
+    /* ─── SECTION COMMON ─── */
+    .section-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.45em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 10px;
+    }
+
+    .section-title {
+      font-size: clamp(26px, 4.5vw, 40px);
+      font-weight: 800;
+      color: var(--text);
+    }
+
+    .section-head {
+      text-align: center;
+      margin-bottom: 56px;
+    }
+
+    /* ─── MENU ─── */
+    .menu {
+      padding: 100px 40px;
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+    }
+
+    .menu-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: border-color 0.3s, transform 0.35s cubic-bezier(.22,1,.36,1);
+    }
+    .menu-card:hover {
+      border-color: var(--border-mid);
+      transform: translateY(-7px);
+    }
+    .menu-card:hover .card-img {
+      transform: scale(1.05);
+    }
+    .menu-card:hover .card-zoom {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    .card-img-wrap {
+      overflow: hidden;
+      position: relative;
+      aspect-ratio: 16/9;
+    }
+
+    .card-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.55s cubic-bezier(.22,1,.36,1);
+    }
+
+    .card-zoom {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.88);
+      opacity: 0;
+      width: 52px;
+      height: 52px;
+      background: rgba(11,9,5,0.75);
+      border: 1px solid rgba(200,133,10,0.5);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold-bright);
+      transition: opacity 0.25s, transform 0.3s cubic-bezier(.22,1,.36,1);
+      backdrop-filter: blur(4px);
+    }
+
+    .card-body {
+      padding: 22px 26px 26px;
+      border-top: 1px solid var(--border);
+    }
+
+    .card-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--gold-pale);
+      margin-bottom: 6px;
+    }
+
+    .card-desc {
+      font-size: 13.5px;
+      color: var(--text-muted);
+      line-height: 1.65;
+    }
+
+    .card-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 16px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--gold);
+      transition: color 0.2s, gap 0.2s;
+    }
+    .menu-card:hover .card-link {
+      color: var(--gold-bright);
+      gap: 10px;
+    }
+
+    /* ─── LIGHTBOX ─── */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 600;
+      background: rgba(0, 0, 0, 0.93);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    .lightbox.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .lightbox-backdrop {
+      position: absolute;
+      inset: 0;
+      cursor: zoom-out;
+    }
+
+    .lightbox-img-wrap {
+      position: relative;
+      z-index: 1;
+      max-width: min(1000px, 96vw);
+      opacity: 0;
+      transform: scale(0.94);
+      transition: opacity 0.35s 0.05s, transform 0.35s 0.05s cubic-bezier(.22,1,.36,1);
+    }
+    .lightbox.open .lightbox-img-wrap {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .lightbox-img {
+      width: 100%;
+      max-height: 90svh;
+      object-fit: contain;
+      border-radius: 10px;
+      display: block;
+      box-shadow: 0 40px 100px rgba(0,0,0,0.9);
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: -16px;
+      left: -16px;
+      width: 40px;
+      height: 40px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-mid);
+      border-radius: 50%;
+      color: var(--text);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s, color 0.2s;
+      z-index: 2;
+    }
+    .lightbox-close:hover {
+      background: var(--gold);
+      color: #0b0905;
+      border-color: var(--gold);
+    }
+
+    /* ─── CONTACT ─── */
+    .contact {
+      position: relative;
+      padding: 110px 40px;
+      overflow: hidden;
+    }
+
+    .contact-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(ellipse, rgba(200,133,10,0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .contact-inner {
+      position: relative;
+      z-index: 2;
+      max-width: 640px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .contact-rule {
+      width: 56px;
+      height: 2px;
+      background: linear-gradient(to left, transparent, var(--gold), transparent);
+      margin: 32px auto 40px;
+    }
+
+    .contact-details {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      margin-bottom: 40px;
+    }
+
+    .contact-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .contact-row svg { color: var(--gold); flex-shrink: 0; }
+
+    .contact-number {
+      font-size: clamp(26px, 6vw, 38px);
+      font-weight: 900;
+      color: var(--gold-bright);
+      letter-spacing: 0.06em;
+      margin: 16px 0 40px;
+      direction: ltr;
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 28px 40px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+  
+
+    /* ─── ANIMATIONS ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 0.25; transform: scaleY(0.85); }
+      50%       { opacity: 1;    transform: scaleY(1); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.75s ease, transform 0.75s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-d1 { transition-delay: 0.1s; }
+    .reveal-d2 { transition-delay: 0.2s; }
+    .reveal-d3 { transition-delay: 0.3s; }
+    .reveal-d4 { transition-delay: 0.4s; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 720px) {
+      nav { padding: 16px 20px; }
+      .menu { padding: 64px 20px; }
+      .menu-grid { grid-template-columns: 1fr; gap: 18px; }
+      .contact { padding: 72px 20px; }
+      footer { padding: 24px 20px; }
+    }
+    @media (max-width: 480px) {
+      .hero-brand-line2::after { display: none; }
+      .btn { font-size: 15px; padding: 12px 28px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="عرض المنيو">
+    <div class="lightbox-backdrop" onclick="closeLightbox()"></div>
+    <div class="lightbox-img-wrap">
+      <button class="lightbox-close" onclick="closeLightbox()" aria-label="إغلاق">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+          <line x1="1" y1="1" x2="13" y2="13"/>
+          <line x1="13" y1="1" x2="1" y2="13"/>
+        </svg>
+      </button>
+      <img class="lightbox-img" id="lightbox-img" src="" alt="منيو العراب شاورما">
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <nav>
+    <span class="nav-logo">العراب شاورما</span>
+    <a class="nav-phone" href="tel:0781874974">0781874974</a>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-glow"></div>
+    <div class="hero-ring"></div>
+
+    <p class="hero-eyebrow">المنيو الإلكتروني الرسمي</p>
+
+
+    <h1 class="hero-brand">
+    <span class="hero-brand-line1">
+    العراب
+  </span>
+
+  <span class="hero-brand-line2">شاورما</span>
+</h1>
+
+
+    <p class="hero-desc">أفضل شاورما وبروستد وسناكات في السخنة</p>
+
+    <div class="hero-actions">
+      <a class="btn btn-gold" href="#menu">عرض المنيو</a>
+      <a class="btn btn-outline" href="tel:0781874974">اتصال الآن</a>
+    </div>
+
+    <div class="hero-scroll">
+      <div class="hero-scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- Menu -->
+  <section class="menu" id="menu">
+    <div class="section-head reveal">
+      <p class="section-label">ما يميزنا</p>
+      <h2 class="section-title">المنيو حقنا </h2>
+    </div>
+
+    <div class="menu-grid">
+
+      <div class="menu-card reveal reveal-d1" onclick="openLightbox('burger menu landscape (1).jpg', ' سناكات')">
+        <div class="card-img-wrap">
+          <img class="card-img" src="burger menu landscape (1).jpg" alt=" سناكات" loading="lazy">
+          <div class="card-zoom">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+              <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>
+            </svg>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-title">منيو سناكات</div>
+          <div class="card-desc"> سناكات، بطاطا، وبرغر العراب بجميع أحجامه</div>
+          <div class="card-link">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+              <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>
+            </svg>
+            تكبير المنيو
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-card reveal reveal-d2" onclick="openLightbox('burger menu landscape (2).jpg', ' شاورما وبروستد')">
+        <div class="card-img-wrap">
+          <img class="card-img" src="burger menu landscape (2).jpg" alt=" شاورما وبروستد" loading="lazy">
+          <div class="card-zoom">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+              <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>
+            </svg>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-title"> شاورما وبروستد</div>
+          <div class="card-desc">وجبات شاورما عائلية، بروستد بعدة أحجام، كوكتيل، ومشروبات غازية</div>
+          <div class="card-link">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+              <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>
+            </svg>
+            تكبير المنيو
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section class="contact">
+    <div class="contact-glow"></div>
+    <div class="contact-inner">
+      <div class="section-head reveal">
+        <p class="section-label">تواصل معنا</p>
+        <h2 class="section-title">للطلب والاستفسار</h2>
+      </div>
+
+      <div class="contact-rule reveal reveal-d1"></div>
+
+      <div class="contact-details reveal reveal-d2">
+        <div class="contact-row">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+            <circle cx="12" cy="9" r="2.5"/>
+          </svg>
+          السخنة — خلف الملعب البلدي
+        </div>
+      </div>
+
+      <div class="contact-number reveal reveal-d3">0781874974</div>
+
+      <a class="btn btn-gold reveal reveal-d4" href="tel:0781874974" style="font-size:17px; padding:15px 52px;">
+        اتصال الآن
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2026 العراب شاورما — جميع الحقوق محفوظة</p>
+       <span> إعداد وتصميم:عزام البلوي _ للاستفسار : 0782457476</span>
+  </footer>
+<footer class="footer">
+  <p class="footer-name">A2</p>
+</footer>
+
+<style>
+.footer {
+  position: fixed;
+  bottom: 15px;
+  left: 20px;
+}
+
+.footer-name {
+  color: #FFD700;
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0;
+}
+</style>
+  <script>
+    // Scroll reveal
+    const observer = new IntersectionObserver(
+      (entries) => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
+      { threshold: 0.1 }
+    );
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Lightbox
+    function openLightbox(src, alt) {
+      const lb = document.getElementById('lightbox');
+      const img = document.getElementById('lightbox-img');
+      img.src = src;
+      img.alt = alt || '';
+      lb.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+  </script>
+
+</body>
+</html>
